@@ -1,0 +1,21 @@
+# ── Backend ──
+Backend/venv/
+Backend/__pycache__/
+Backend/data/
+Backend/*.db
+Backend/.env
+*.pyc
+
+# ── Frontend ──
+frontend-next/node_modules/
+frontend-next/.next/
+frontend-next/out/
+frontend-next/.env.local
+frontend-next/.vercel/
+frontend-next/*.tsbuildinfo
+frontend-next/next-env.d.ts
+
+# ── Geral ──
+.DS_Store
+*.pem
+npm-debug.log*

@@ -1,0 +1,7 @@
+# Controle Financeiro — Backend
+venv/
+__pycache__/
+*.pyc
+data/
+.env
+*.db
