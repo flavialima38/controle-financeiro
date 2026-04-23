@@ -21,8 +21,11 @@ def create_app():
     os.makedirs(os.path.join(os.path.dirname(__file__), "data"), exist_ok=True)
     db.init_app(app)
 
-    # Habilita CORS
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    # Habilita CORS — lê origens permitidas da env CORS_ORIGINS
+    # Em produção, defina CORS_ORIGINS com o domínio do frontend (ex: https://meusite.vercel.app)
+    # Múltiplas origens podem ser separadas por vírgula
+    cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:3000").split(",")
+    CORS(app, resources={r"/api/*": {"origins": [o.strip() for o in cors_origins]}})
 
     # Importa e registra as rotas
     from routes.finance_routes import finance_bp
