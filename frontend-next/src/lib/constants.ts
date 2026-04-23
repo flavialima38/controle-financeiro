@@ -12,6 +12,7 @@ export const PESSOAS: readonly Pessoa[] = [
   { nome: "Igor", cor: "#ff7eb3", ini: "IG", recebeDia: "Dia 30 ou 31" },
   { nome: "Luli", cor: "#4ade80", ini: "LU", recebeDia: "Dia 31" },
   { nome: "Daniel", cor: "#fbbf24", ini: "DN", recebeDia: "Dia 05" },
+  { nome: "Filipe", cor: "#a78bfa", ini: "FP", recebeDia: "Dia 18" },
 ] as const;
 
 export const FORMAS: readonly FormaPagamento[] = [
