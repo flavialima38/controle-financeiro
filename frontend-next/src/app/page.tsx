@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 import { useFinanceState } from "@/hooks/useFinanceState";
 import { useToast } from "@/hooks/useToast";
 import { calcSummary, fmt, fmtDate } from "@/lib/finance";
@@ -20,8 +22,18 @@ import Lightbox from "@/components/Lightbox";
 import Toast from "@/components/Toast";
 
 export default function HomePage() {
+  const { user, loading, signOut } = useAuth();
+  const router = useRouter();
   const finance = useFinanceState();
   const toast = useToast();
+
+  // Redireciona para login se não autenticado
+  useEffect(() => {
+    if (!loading && !user) router.replace("/login");
+  }, [user, loading, router]);
+
+  if (loading) return <div className="loading-screen">Carregando...</div>;
+  if (!user) return null;
 
   const [comprasOpen, setComprasOpen] = useState(false);
   const [mktOpen, setMktOpen] = useState(false);
@@ -55,7 +67,7 @@ export default function HomePage() {
     const fundo = Object.values(state.entradas).reduce((s, v) => s + Number(v || 0), 0);
     const totalSaidas = totContas + totMkt;
     const saldoFundo = fundo - totalSaidas;
-    const parteContas = totContas / 4;
+    const parteContas = totContas / PESSOAS.length;
 
     let html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
       <title>Resumo Financeiro - ${mesNome}</title>
@@ -91,7 +103,7 @@ export default function HomePage() {
       <div class="sum-card"><div class="lbl">Saldo</div><div class="val ${saldoFundo >= 0 ? "blue" : "red"}">${fmt(saldoFundo)}</div></div>
     </div>`;
 
-    html += `<div class="section"><div class="section-title">💰 Contribuições (R$ 1.000 cada)</div>
+    html += `<div class="section"><div class="section-title">💰 Contribuições (R$ 1.000 cada × ${PESSOAS.length})</div>
       <table><tr><th>Pessoa</th><th>Depositou</th><th>Falta</th><th>Status</th></tr>`;
     PESSOAS.forEach(p => {
       const ent = Number(state.entradas[p.nome] || 0);
@@ -112,7 +124,7 @@ export default function HomePage() {
       });
       if (totContas > 0) {
         html += `<tr class="highlight-row"><td><strong>TOTAL</strong></td><td class="val red">${fmt(totContas)}</td><td></td></tr>`;
-        html += `<tr class="highlight-row"><td><strong>÷ 4 = cada um</strong></td><td class="val yellow">${fmt(parteContas)}</td><td></td></tr>`;
+        html += `<tr class="highlight-row"><td><strong>÷ ${PESSOAS.length} = cada um</strong></td><td class="val yellow">${fmt(parteContas)}</td><td></td></tr>`;
       }
       html += `</table></div>`;
     }
@@ -126,7 +138,8 @@ export default function HomePage() {
   return (
     <>
       <Header yr={finance.yr} mi={finance.mi} onChangeMonth={finance.changeMonth}
-        onOpenCompras={() => setComprasOpen(true)} onOpenMkt={() => setMktOpen(true)} />
+        onOpenCompras={() => setComprasOpen(true)} onOpenMkt={() => setMktOpen(true)}
+        userEmail={user.email} onLogout={signOut} />
 
       <div className="wrap" key={`${finance.yr}_${finance.mi}`}>
         <SummaryCards summary={summary} />

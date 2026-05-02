@@ -12,7 +12,7 @@ interface Props {
 
 export default function DivGrid({ state, onEditDevendo }: Props) {
   const totContas = state.itens.reduce((s, it) => s + (it.valor || 0), 0);
-  const parteContas = totContas / 4;
+  const parteContas = totContas / PESSOAS.length;
 
   return (
     <>
@@ -46,7 +46,7 @@ export default function DivGrid({ state, onEditDevendo }: Props) {
                 <div className="pr"><label>Combinado</label><span style={{ fontSize: ".78rem", fontWeight: 700 }}>{fmt(META_CONTRIBUICAO)}</span></div>
                 <div className="pr"><label>Depositou</label><span style={{ fontSize: ".78rem", color: "var(--grn)", fontWeight: 700 }}>{fmt(ent)}</span></div>
                 {totContas > 0 && (
-                  <div className="pr"><label>Parte das contas (÷4)</label><span style={{ fontSize: ".75rem", color: "var(--yel)", fontWeight: 700 }}>{fmt(parteContas)}</span></div>
+                  <div className="pr"><label>Parte das contas (÷{PESSOAS.length})</label><span style={{ fontSize: ".75rem", color: "var(--yel)", fontWeight: 700 }}>{fmt(parteContas)}</span></div>
                 )}
                 <div className="pb-bg"><div className="pb" style={{ width: `${pct}%`, background: p.cor }}></div></div>
                 <div style={{ marginTop: 8 }}>

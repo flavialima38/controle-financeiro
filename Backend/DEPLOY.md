@@ -4,14 +4,16 @@
 # Para deploy no Render:
 # 1. Crie uma conta em render.com
 # 2. Conecte seu repositório GitHub
-# 3. Crie um "Web Service" apontando para a pasta Backend/
-# 4. Configure:
-#    - Build Command: pip install -r requirements.txt
-#    - Start Command: gunicorn app:app
-#    - Environment: Python 3
-# 5. Crie um PostgreSQL database no Render 
-# 6. Copie a "Internal Database URL" e cole como variável de ambiente:
-#    DATABASE_URL = postgres://...
-# 7. Adicione também:
-#    SECRET_KEY = (uma chave aleatória forte)
-#    FLASK_DEBUG = False
+# 3. Vá em "Blueprints" e aponte para o render.yaml — ele cria tudo automaticamente.
+# 4. Após criar, configure MANUALMENTE no painel do Render as variáveis:
+#
+#    SUPABASE_JWT_SECRET = (Supabase → Project Settings → API → JWT Secret)
+#    CORS_ORIGINS        = https://seu-frontend.vercel.app
+#
+# 5. O DATABASE_URL é preenchido automaticamente pelo render.yaml via fromDatabase.
+#
+# Variáveis automáticas (geradas pelo render.yaml):
+#    SECRET_KEY    → gerado automaticamente
+#    DATABASE_URL  → vem do banco PostgreSQL conectado
+#    FLASK_DEBUG   → False
+#    PYTHON_VERSION → 3.12.0

@@ -4,6 +4,10 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 // Extrai a origem (protocol + host) da URL da API para o CSP
 const apiOrigin = apiUrl.replace(/\/api\/?$/, "") || "http://localhost:5000";
 
+// Extrai a origem do Supabase para o CSP
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const supabaseOrigin = supabaseUrl ? new URL(supabaseUrl).origin : "https://*.supabase.co";
+
 const nextConfig: NextConfig = {
   // Headers de segurança
   async headers() {
@@ -39,7 +43,7 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
               "img-src 'self' data: blob:",
-              `connect-src 'self' ${apiOrigin}`,
+              `connect-src 'self' ${apiOrigin} ${supabaseOrigin} https://*.supabase.co wss://*.supabase.co`,
               "frame-src 'none'",
             ].join("; "),
           },

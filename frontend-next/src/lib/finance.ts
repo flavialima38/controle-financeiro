@@ -37,7 +37,7 @@ export function calcSummary(state: FinanceState): FinanceSummary {
     totalMercado,
     totalSaidas,
     saldoFundo: fundoTotal - totalSaidas,
-    partePorPessoa: totalContas > 0 ? totalContas / 4 : 0,
+    partePorPessoa: totalContas > 0 ? totalContas / PESSOAS.length : 0,
   };
 }
 

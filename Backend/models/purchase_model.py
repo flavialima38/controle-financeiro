@@ -21,6 +21,7 @@ class Compra(db.Model):
         except (json.JSONDecodeError, TypeError):
             ai = []
         return {
+            "id": self.id,
             "loja": self.loja,
             "data": self.data,
             "valor": self.valor,

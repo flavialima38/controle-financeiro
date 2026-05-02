@@ -1213,3 +1213,45 @@ header h1 span {
     min-width: 44px;
     min-height: 44px
 }
+
+/* USER BAR */
+.user-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    background: rgba(108, 143, 255, .06);
+    border-bottom: 1px solid rgba(108, 143, 255, .12);
+    font-size: .72rem;
+    color: var(--mut)
+}
+
+.logout-btn {
+    background: rgba(248, 113, 113, .1);
+    border: 1px solid rgba(248, 113, 113, .25);
+    color: var(--red);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .7rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    min-height: 28px;
+    transition: background .2s
+}
+
+.logout-btn:hover {
+    background: rgba(248, 113, 113, .2)
+}
+
+/* LOADING SCREEN */
+.loading-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-size: 1rem;
+    color: var(--mut);
+    background: var(--bg)
+}
+

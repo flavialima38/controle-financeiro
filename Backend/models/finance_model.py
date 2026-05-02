@@ -1,7 +1,7 @@
 """Modelos do banco de dados para o estado financeiro mensal."""
 from database import db
 
-PESSOAS = ["Flavia", "Igor", "Luli", "Daniel"]
+PESSOAS = ["Flavia", "Igor", "Luli", "Daniel", "Filipe"]
 META_CONTRIBUICAO = 1000
 
 

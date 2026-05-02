@@ -1,7 +1,9 @@
 /**
  * Client HTTP seguro para comunicação com o backend.
+ * Inclui token de autenticação Supabase em todas as requisições.
  */
 import { API_BASE } from "./constants";
+import { supabase } from "./supabase";
 
 const TIMEOUT_MS = 10_000;
 
@@ -12,19 +14,29 @@ interface ApiOptions {
 }
 
 /**
- * Faz uma requisição segura com timeout e error handling.
+ * Faz uma requisição segura com timeout, auth e error handling.
  */
 export async function apiFetch<T>(endpoint: string, options: ApiOptions = {}): Promise<T | null> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
   try {
+    // Pega o token da sessão atual do Supabase
+    const { data: { session } } = await supabase.auth.getSession();
+    const token = session?.access_token;
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest",
+    };
+
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
     const res = await fetch(`${API_BASE}${endpoint}`, {
       method: options.method || "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Requested-With": "XMLHttpRequest",
-      },
+      headers,
       body: options.body ? JSON.stringify(options.body) : undefined,
       signal: options.signal || controller.signal,
       credentials: "omit",

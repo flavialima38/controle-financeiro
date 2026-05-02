@@ -8,11 +8,19 @@ interface Props {
   onChangeMonth: (dir: number) => void;
   onOpenCompras: () => void;
   onOpenMkt: () => void;
+  userEmail?: string;
+  onLogout?: () => void;
 }
 
-export default function Header({ yr, mi, onChangeMonth, onOpenCompras, onOpenMkt }: Props) {
+export default function Header({ yr, mi, onChangeMonth, onOpenCompras, onOpenMkt, userEmail, onLogout }: Props) {
   return (
     <header>
+      {userEmail && (
+        <div className="user-bar">
+          <span>👤 {userEmail}</span>
+          <button className="logout-btn" onClick={onLogout}>Sair</button>
+        </div>
+      )}
       <div className="hdr-top">
         <h1>🏠 Controle <span>Financeiro</span></h1>
         <div className="hdr-btns">
@@ -28,3 +36,4 @@ export default function Header({ yr, mi, onChangeMonth, onOpenCompras, onOpenMkt
     </header>
   );
 }
+

@@ -22,6 +22,7 @@ export interface DespesaItem {
 
 /* ── Compra registrada ── */
 export interface Compra {
+  id?: number;
   loja: string;
   data: string;
   valor: number;
