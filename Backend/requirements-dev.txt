@@ -1,0 +1,11 @@
+# Dependências para desenvolvimento LOCAL (Windows / SQLite)
+# Use: pip install -r requirements-dev.txt
+# Não inclui psycopg2 (não é necessário com SQLite local)
+flask==3.1.0
+flask-cors==5.0.1
+flask-limiter==3.12
+flask-sqlalchemy==3.1.1
+python-dotenv==1.1.0
+gunicorn==23.0.0
+PyJWT[crypto]==2.10.1
+cryptography>=42.0.0
