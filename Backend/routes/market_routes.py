@@ -2,11 +2,13 @@
 
 from flask import Blueprint, request, jsonify
 from controllers.market_controller import MarketController
+from auth_middleware import require_auth
 
 market_bp = Blueprint("market", __name__, url_prefix="/api/market")
 
 
 @market_bp.route("/<int:year>/<int:month>", methods=["GET"])
+@require_auth
 def get_list(year, month):
     """GET /api/market/{year}/{month} — Retorna a lista de mercado."""
     data = MarketController.get_list(year, month)
@@ -14,6 +16,7 @@ def get_list(year, month):
 
 
 @market_bp.route("/<int:year>/<int:month>", methods=["PUT"])
+@require_auth
 def save_list(year, month):
     """PUT /api/market/{year}/{month} — Salva a lista inteira."""
     data = request.get_json()
@@ -24,6 +27,7 @@ def save_list(year, month):
 
 
 @market_bp.route("/<int:year>/<int:month>/item", methods=["POST"])
+@require_auth
 def add_item(year, month):
     """POST /api/market/{year}/{month}/item — Adiciona item personalizado."""
     data = request.get_json()
@@ -34,6 +38,7 @@ def add_item(year, month):
 
 
 @market_bp.route("/<int:year>/<int:month>/toggle/<int:item_id>", methods=["PATCH"])
+@require_auth
 def toggle_item(year, month, item_id):
     """PATCH /api/market/{year}/{month}/toggle/{id} — Marca/desmarca item."""
     item, msg = MarketController.toggle_item(year, month, item_id)
@@ -43,6 +48,7 @@ def toggle_item(year, month, item_id):
 
 
 @market_bp.route("/<int:year>/<int:month>/bought/<int:item_id>", methods=["PATCH"])
+@require_auth
 def update_bought(year, month, item_id):
     """PATCH /api/market/{year}/{month}/bought/{id} — Atualiza qty comprada."""
     data = request.get_json()
@@ -54,6 +60,7 @@ def update_bought(year, month, item_id):
 
 
 @market_bp.route("/<int:year>/<int:month>/reset", methods=["POST"])
+@require_auth
 def reset_list(year, month):
     """POST /api/market/{year}/{month}/reset — Desmarca todos."""
     state = MarketController.reset_list(year, month)

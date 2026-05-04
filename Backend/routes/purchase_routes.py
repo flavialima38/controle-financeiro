@@ -2,11 +2,13 @@
 
 from flask import Blueprint, request, jsonify
 from controllers.purchase_controller import PurchaseController
+from auth_middleware import require_auth
 
 purchase_bp = Blueprint("purchase", __name__, url_prefix="/api/purchases")
 
 
 @purchase_bp.route("/<int:year>/<int:month>", methods=["GET"])
+@require_auth
 def get_purchases(year, month):
     """GET /api/purchases/{year}/{month} — Lista compras do mês."""
     purchases = PurchaseController.get_purchases(year, month)
@@ -14,6 +16,7 @@ def get_purchases(year, month):
 
 
 @purchase_bp.route("/<int:year>/<int:month>", methods=["POST"])
+@require_auth
 def add_purchase(year, month):
     """POST /api/purchases/{year}/{month} — Registra nova compra."""
     data = request.get_json()
@@ -26,6 +29,7 @@ def add_purchase(year, month):
 
 
 @purchase_bp.route("/<int:year>/<int:month>/<int:index>", methods=["DELETE"])
+@require_auth
 def remove_purchase(year, month, index):
     """DELETE /api/purchases/{year}/{month}/{index} — Remove compra."""
     removed, msg = PurchaseController.remove_purchase(year, month, index)

@@ -27,6 +27,11 @@ export default function HomePage() {
   const finance = useFinanceState();
   const toast = useToast();
 
+  // ── Todos os hooks ANTES de qualquer return condicional ──
+  const [comprasOpen, setComprasOpen] = useState(false);
+  const [mktOpen, setMktOpen] = useState(false);
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+
   // Redireciona para login se não autenticado
   useEffect(() => {
     if (!loading && !user) router.replace("/login");
@@ -34,10 +39,6 @@ export default function HomePage() {
 
   if (loading) return <div className="loading-screen">Carregando...</div>;
   if (!user) return null;
-
-  const [comprasOpen, setComprasOpen] = useState(false);
-  const [mktOpen, setMktOpen] = useState(false);
-  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
 
   const summary = calcSummary(finance.state);
 

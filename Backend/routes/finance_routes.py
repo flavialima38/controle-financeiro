@@ -2,11 +2,13 @@
 
 from flask import Blueprint, request, jsonify
 from controllers.finance_controller import FinanceController
+from auth_middleware import require_auth
 
 finance_bp = Blueprint("finance", __name__, url_prefix="/api/finance")
 
 
 @finance_bp.route("/<int:year>/<int:month>", methods=["GET"])
+@require_auth
 def get_state(year, month):
     """GET /api/finance/{year}/{month} — Retorna o estado financeiro do mês."""
     state = FinanceController.get_state(year, month)
@@ -14,6 +16,7 @@ def get_state(year, month):
 
 
 @finance_bp.route("/<int:year>/<int:month>", methods=["PUT"])
+@require_auth
 def save_state(year, month):
     """PUT /api/finance/{year}/{month} — Salva o estado financeiro do mês."""
     data = request.get_json()
@@ -26,6 +29,7 @@ def save_state(year, month):
 
 
 @finance_bp.route("/<int:year>/<int:month>/summary", methods=["GET"])
+@require_auth
 def get_summary(year, month):
     """GET /api/finance/{year}/{month}/summary — Resumo financeiro."""
     summary = FinanceController.get_summary(year, month)
@@ -33,6 +37,7 @@ def get_summary(year, month):
 
 
 @finance_bp.route("/<int:year>/<int:month>/reset", methods=["POST"])
+@require_auth
 def reset_state(year, month):
     """POST /api/finance/{year}/{month}/reset — Limpa o mês."""
     state = FinanceController.reset_state(year, month)
